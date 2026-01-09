@@ -258,6 +258,9 @@
             position: sticky;
             bottom: 0;
             z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .btn-complete {
@@ -275,6 +278,58 @@
             background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-download {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-download.zip {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-download.zip:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-download.pdf {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-download.pdf:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-download.pptx {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-download.pptx:hover {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
         }
 
         .hidden {
@@ -361,12 +416,36 @@
     <footer class="hidden" id="footer">
         <button class="btn btn-complete" id="completeBtn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                <path d="M7 10l5 5 5-5" />
-                <path d="M12 15V3" />
+                <path d="M5 13l4 4L19 7" />
             </svg>
-            Complete & Download ZIP
+            Complete
         </button>
+        <div class="download-buttons hidden" id="downloadButtons">
+            <button class="btn btn-download zip" id="downloadZipBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <path d="M7 10l5 5 5-5" />
+                    <path d="M12 15V3" />
+                </svg>
+                ZIP
+            </button>
+            <button class="btn btn-download pdf" id="downloadPdfBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                    <path d="M14 2v6h6" />
+                    <path d="M9 15h6" />
+                </svg>
+                PDF
+            </button>
+            <button class="btn btn-download pptx" id="downloadPptxBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <path d="M8 21h8" />
+                    <path d="M12 17v4" />
+                </svg>
+                PPTX
+            </button>
+        </div>
     </footer>
 
     <script src="jszip.min.js"></script>

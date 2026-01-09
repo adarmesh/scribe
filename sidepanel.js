@@ -17,6 +17,10 @@ chrome.storage.local.get(['isCapturing'], (result) => {
 // DOM elements
 const startBtn = document.getElementById('startBtn');
 const completeBtn = document.getElementById('completeBtn');
+const downloadButtons = document.getElementById('downloadButtons');
+const downloadZipBtn = document.getElementById('downloadZipBtn');
+const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+const downloadPptxBtn = document.getElementById('downloadPptxBtn');
 const footer = document.getElementById('footer');
 const container = document.getElementById('capturesContainer');
 const statsEl = document.getElementById('stats');
@@ -161,19 +165,39 @@ function updateStats() {
     }
 }
 
-// Complete session and create ZIP
-async function completeSession() {
+// Complete session - stop capturing and show download buttons
+function completeSession() {
     if (sessionCaptures.length === 0) {
         alert('No captures to download. Click on the page to capture screenshots first.');
         return;
     }
 
-    completeBtn.disabled = true;
-    completeBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
+    // Stop capturing
+    isCapturing = false;
+    chrome.storage.local.set({ isCapturing: false });
+
+    // Update UI - hide complete button, show download buttons
+    completeBtn.classList.add('hidden');
+    downloadButtons.classList.remove('hidden');
+    recordingIndicator.classList.add('hidden');
+
+    // Notify content scripts that session ended
+    chrome.tabs.query({}, (tabs) => {
+        tabs.forEach(tab => {
+            chrome.tabs.sendMessage(tab.id, { action: "session_ended" }).catch(() => { });
+        });
+    });
+}
+
+// Download as ZIP
+async function downloadZip() {
+    downloadZipBtn.disabled = true;
+    const originalText = downloadZipBtn.innerHTML;
+    downloadZipBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
             <circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/>
         </svg>
-        Creating ZIP...
+        ...
     `;
 
     try {
@@ -219,22 +243,25 @@ async function completeSession() {
         a.click();
         document.body.removeChild(a);
 
-        // Reset session
+        // Reset session after successful download
         resetSession();
 
     } catch (error) {
         console.error('Error creating ZIP:', error);
         alert('Error creating ZIP file: ' + error.message);
-        completeBtn.disabled = false;
-        completeBtn.innerHTML = `
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                <path d="M7 10l5 5 5-5"/>
-                <path d="M12 15V3"/>
-            </svg>
-            Complete & Download ZIP
-        `;
+        downloadZipBtn.disabled = false;
+        downloadZipBtn.innerHTML = originalText;
     }
+}
+
+// Download as PDF (placeholder - needs implementation)
+async function downloadPdf() {
+    alert('PDF export coming soon!');
+}
+
+// Download as PPTX (placeholder - needs implementation)
+async function downloadPptx() {
+    alert('PPTX export coming soon!');
 }
 
 // Reset session to initial state
@@ -248,16 +275,10 @@ function resetSession() {
     recordingIndicator.classList.add('hidden');
     statsEl.classList.add('hidden');
 
-    // Reset complete button
-    completeBtn.disabled = false;
-    completeBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <path d="M7 10l5 5 5-5"/>
-            <path d="M12 15V3"/>
-        </svg>
-        Complete & Download ZIP
-    `;
+    // Reset buttons visibility
+    completeBtn.classList.remove('hidden');
+    downloadButtons.classList.add('hidden');
+    downloadZipBtn.disabled = false;
 
     // Show empty state
     container.innerHTML = `
@@ -285,6 +306,9 @@ function resetSession() {
 // Event listeners
 startBtn.addEventListener('click', startSession);
 completeBtn.addEventListener('click', completeSession);
+downloadZipBtn.addEventListener('click', downloadZip);
+downloadPdfBtn.addEventListener('click', downloadPdf);
+downloadPptxBtn.addEventListener('click', downloadPptx);
 
 // Listen for new captures from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
