@@ -61,7 +61,7 @@ function startSession() {
     // Notify content scripts that session started
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]) {
-            chrome.tabs.sendMessage(tabs[0].id, { action: "session_started" });
+            chrome.tabs.sendMessage(tabs[0].id, { action: "session_started" }).catch(() => { });
         }
     });
 

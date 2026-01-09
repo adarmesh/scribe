@@ -1,35 +1,32 @@
-// Cleanup function to remove listeners when orphaned
-function cleanup() {
-    window.removeEventListener('click', handleClick);
-    chrome.storage.onChanged.removeListener(handleStorageChange);
-}
+// Guard against duplicate injections (after extension reload/re-inject)
+if (window.__scribeInjected) {
+    // Already injected, stop execution
+} else {
+    window.__scribeInjected = true;
 
-// Handle storage changes
-function handleStorageChange(changes, namespace) {
-    if (namespace === 'local' && changes.isCapturing) {
-        // Session state changed - handled automatically via storage
-    }
-}
+    // Handle mousedown events - use capture phase for early interception
+    document.addEventListener('mousedown', async () => {
+        // Wrap everything in try-catch to handle context invalidation
+        // When extension reloads, even accessing chrome.runtime can throw
+        try {
+            // Check if chrome.runtime is still valid
+            if (!chrome.runtime?.id) {
+                return; // Extension context invalidated, exit silently
+            }
 
-// Handle click events - check storage for current session state
-async function handleClick() {
-    try {
-        const result = await chrome.storage.local.get(['isCapturing']);
-        if (result.isCapturing) {
-            await chrome.runtime.sendMessage({
-                action: "capture_window",
-                originUrl: window.location.href
-            });
+            // One-shot read from storage (event-only model, no persistent listeners)
+            const { isCapturing } = await chrome.storage.local.get(['isCapturing']);
+
+            if (isCapturing) {
+                // Fire-and-forget message to background script
+                await chrome.runtime.sendMessage({
+                    action: "capture_window",
+                    originUrl: window.location.href
+                });
+            }
+        } catch (error) {
+            // Extension context invalidated or other error
+            // Fail silently - new content script will take over after re-injection
         }
-    } catch (error) {
-        // Extension was reloaded - clean up orphaned listeners
-        if (error.message?.includes('Extension context invalidated')) {
-            console.log('Extension context invalidated, cleaning up listeners');
-            cleanup();
-        }
-    }
+    }, true); // true = capture phase
 }
-
-// Register listeners
-chrome.storage.onChanged.addListener(handleStorageChange);
-window.addEventListener('click', handleClick);

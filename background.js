@@ -1,3 +1,25 @@
+// Re-inject content script into all existing tabs on extension install/update/reload
+chrome.runtime.onInstalled.addListener(async (details) => {
+    // Re-inject on install, update, or reload (during development)
+    if (details.reason === 'install' || details.reason === 'update') {
+        const tabs = await chrome.tabs.query({});
+
+        for (const tab of tabs) {
+            // Skip non-http pages (chrome://, chrome-extension://, etc.)
+            if (!tab.url?.startsWith('http')) continue;
+
+            try {
+                await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    files: ['content.js']
+                });
+            } catch (e) {
+                // Tab might be closed or restricted, ignore
+            }
+        }
+    }
+});
+
 // Open side panel when extension icon is clicked
 chrome.action.onClicked.addListener(async (tab) => {
     await chrome.sidePanel.open({ tabId: tab.id });
