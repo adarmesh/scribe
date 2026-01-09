@@ -21,6 +21,8 @@ const downloadButtons = document.getElementById('downloadButtons');
 const downloadZipBtn = document.getElementById('downloadZipBtn');
 const downloadPdfBtn = document.getElementById('downloadPdfBtn');
 const downloadPptxBtn = document.getElementById('downloadPptxBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const footerButtons = document.getElementById('footerButtons');
 const footer = document.getElementById('footer');
 const container = document.getElementById('capturesContainer');
 const statsEl = document.getElementById('stats');
@@ -51,9 +53,6 @@ function startSession() {
     // Clear container and show hint
     container.innerHTML = `
         <div class="session-hint" id="sessionHint">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
-            </svg>
             <p>Click anywhere on the page to capture screenshots</p>
         </div>
     `;
@@ -162,7 +161,23 @@ function updateStats() {
     statsEl.textContent = `${sessionCaptures.length} capture${sessionCaptures.length !== 1 ? 's' : ''}`;
     if (sessionCaptures.length > 0) {
         statsEl.classList.remove('hidden');
+    } else {
+        statsEl.classList.add('hidden');
     }
+}
+
+// Clear all captures but keep session going
+function clearAllCaptures() {
+    sessionCaptures = [];
+
+    // Clear container and show hint again
+    container.innerHTML = `
+        <div class="session-hint" id="sessionHint">
+            <p>Click anywhere on the page to capture screenshots</p>
+        </div>
+    `;
+
+    updateStats();
 }
 
 // Complete session - stop capturing and show download buttons
@@ -177,8 +192,8 @@ function completeSession() {
     isCapturing = false;
     chrome.storage.local.set({ isCapturing: false });
 
-    // Update UI - hide complete button, show download buttons
-    completeBtn.classList.add('hidden');
+    // Update UI - hide footer buttons, show download buttons
+    footerButtons.classList.add('hidden');
     downloadButtons.classList.remove('hidden');
     recordingIndicator.classList.add('hidden');
 
@@ -271,7 +286,7 @@ function resetSession() {
     statsEl.classList.add('hidden');
 
     // Reset buttons visibility
-    completeBtn.classList.remove('hidden');
+    footerButtons.classList.remove('hidden');
     downloadButtons.classList.add('hidden');
     downloadZipBtn.disabled = false;
     downloadZipBtn.textContent = 'ZIP';
@@ -302,6 +317,7 @@ function resetSession() {
 // Event listeners
 startBtn.addEventListener('click', startSession);
 completeBtn.addEventListener('click', completeSession);
+clearAllBtn.addEventListener('click', clearAllCaptures);
 downloadZipBtn.addEventListener('click', downloadZip);
 downloadPdfBtn.addEventListener('click', downloadPdf);
 downloadPptxBtn.addEventListener('click', downloadPptx);
