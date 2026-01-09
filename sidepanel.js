@@ -193,13 +193,7 @@ function completeSession() {
 // Download as ZIP
 async function downloadZip() {
     downloadZipBtn.disabled = true;
-    const originalText = downloadZipBtn.innerHTML;
-    downloadZipBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-            <circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/>
-        </svg>
-        ...
-    `;
+    downloadZipBtn.textContent = 'Saving...';
 
     try {
         const zip = new JSZip();
@@ -251,7 +245,7 @@ async function downloadZip() {
         console.error('Error creating ZIP:', error);
         alert('Error creating ZIP file: ' + error.message);
         downloadZipBtn.disabled = false;
-        downloadZipBtn.innerHTML = originalText;
+        downloadZipBtn.textContent = 'ZIP';
     }
 }
 
@@ -280,6 +274,7 @@ function resetSession() {
     completeBtn.classList.remove('hidden');
     downloadButtons.classList.add('hidden');
     downloadZipBtn.disabled = false;
+    downloadZipBtn.textContent = 'ZIP';
 
     // Show empty state
     container.innerHTML = `
