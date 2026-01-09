@@ -167,8 +167,9 @@ function updateStats() {
 
 // Complete session - stop capturing and show download buttons
 function completeSession() {
+    // If no captures, just reset the session
     if (sessionCaptures.length === 0) {
-        alert('No captures to download. Click on the page to capture screenshots first.');
+        resetSession();
         return;
     }
 
