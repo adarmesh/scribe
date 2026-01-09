@@ -1,205 +1,319 @@
-const DB_NAME = "CaptureDB";
-const STORE_NAME = "screenshots";
+// Session state
+let isCapturing = false;
+let sessionCaptures = [];
 
-// Initialize IndexedDB
-function getDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
-            }
-        };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-}
+// Sync isCapturing with storage changes
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes.isCapturing) {
+        isCapturing = changes.isCapturing.newValue;
+    }
+});
 
-// Get all captures from IndexedDB
-async function getAllCaptures() {
-    const db = await getDB();
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, "readonly");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.getAll();
+// Initialize isCapturing from storage
+chrome.storage.local.get(['isCapturing'], (result) => {
+    isCapturing = result.isCapturing || false;
+});
 
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-}
+// DOM elements
+const startBtn = document.getElementById('startBtn');
+const completeBtn = document.getElementById('completeBtn');
+const footer = document.getElementById('footer');
+const container = document.getElementById('capturesContainer');
+const statsEl = document.getElementById('stats');
+const recordingIndicator = document.getElementById('recordingIndicator');
+const emptyState = document.getElementById('emptyState');
 
-// Delete a single capture by ID
-async function deleteCapture(id) {
-    const db = await getDB();
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.delete(id);
-
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-    });
-}
-
-// Clear all captures from IndexedDB
-async function clearAllCaptures() {
-    const db = await getDB();
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.clear();
-
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-    });
-}
-
-// Format timestamp to readable date
-function formatDate(timestamp) {
+// Format timestamp to readable time
+function formatTime(timestamp) {
     const date = new Date(timestamp);
-    const now = new Date();
-    const diff = now - date;
+    return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+}
 
-    // If less than 24 hours ago, show relative time
-    if (diff < 86400000) {
-        if (diff < 60000) return 'Just now';
-        if (diff < 3600000) return `${Math.floor(diff / 60000)} min ago`;
-        return `${Math.floor(diff / 3600000)} hours ago`;
+// Start capture session
+function startSession() {
+    isCapturing = true;
+    sessionCaptures = [];
+
+    // Update UI
+    startBtn.classList.add('hidden');
+    footer.classList.remove('hidden');
+    recordingIndicator.classList.remove('hidden');
+    statsEl.classList.add('hidden');
+
+    // Clear container and show hint
+    container.innerHTML = `
+        <div class="session-hint" id="sessionHint">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+            </svg>
+            <p>Click anywhere on the page to capture screenshots</p>
+        </div>
+    `;
+
+    // Notify content scripts that session started
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "session_started" });
+        }
+    });
+
+    // Store session state
+    chrome.storage.local.set({ isCapturing: true });
+}
+
+// Add capture to the session
+function addCapture(imageBlob, url) {
+    const capture = {
+        id: Date.now(),
+        timestamp: Date.now(),
+        image: imageBlob,
+        url: url,
+        number: sessionCaptures.length + 1
+    };
+
+    sessionCaptures.push(capture);
+
+    // Remove hint if this is the first capture
+    const hint = document.getElementById('sessionHint');
+    if (hint) {
+        hint.remove();
     }
 
-    return date.toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+    // Create capture card
+    const card = document.createElement('div');
+    card.className = 'capture-card';
+    card.dataset.id = capture.id;
+
+    const imageUrl = URL.createObjectURL(imageBlob);
+
+    card.innerHTML = `
+        <img src="${imageUrl}" alt="Capture #${capture.number}" title="Click to open full size">
+        <div class="capture-info">
+            <div class="capture-meta">
+                <div class="capture-number">Capture #${capture.number}</div>
+                <div class="capture-time">${formatTime(capture.timestamp)}</div>
+            </div>
+            <div class="capture-actions">
+                <button class="btn-icon delete" title="Remove">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Open image in new tab on click
+    card.querySelector('img').addEventListener('click', () => {
+        chrome.tabs.create({ url: imageUrl });
+    });
+
+    // Delete button
+    card.querySelector('.delete').addEventListener('click', () => {
+        const index = sessionCaptures.findIndex(c => c.id === capture.id);
+        if (index > -1) {
+            sessionCaptures.splice(index, 1);
+        }
+        card.style.transition = 'all 0.3s ease';
+        card.style.opacity = '0';
+        card.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            card.remove();
+            updateStats();
+            renumberCaptures();
+        }, 300);
+    });
+
+    container.appendChild(card);
+    updateStats();
+
+    // Auto-scroll to bottom
+    container.scrollTop = container.scrollHeight;
+}
+
+// Update capture numbers after deletion
+function renumberCaptures() {
+    sessionCaptures.forEach((capture, index) => {
+        capture.number = index + 1;
+    });
+
+    const cards = container.querySelectorAll('.capture-card');
+    cards.forEach((card, index) => {
+        const numberEl = card.querySelector('.capture-number');
+        if (numberEl) {
+            numberEl.textContent = `Capture #${index + 1}`;
+        }
     });
 }
 
-// Download image
-function downloadImage(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+// Update stats display
+function updateStats() {
+    statsEl.textContent = `${sessionCaptures.length} capture${sessionCaptures.length !== 1 ? 's' : ''}`;
+    if (sessionCaptures.length > 0) {
+        statsEl.classList.remove('hidden');
+    }
 }
 
-// Render captures to the side panel
-async function renderCaptures() {
-    const container = document.getElementById('capturesContainer');
-    const statsEl = document.getElementById('stats');
+// Complete session and create ZIP
+async function completeSession() {
+    if (sessionCaptures.length === 0) {
+        alert('No captures to download. Click on the page to capture screenshots first.');
+        return;
+    }
+
+    completeBtn.disabled = true;
+    completeBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
+            <circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/>
+        </svg>
+        Creating ZIP...
+    `;
 
     try {
-        const captures = await getAllCaptures();
+        const zip = new JSZip();
+        const folder = zip.folder("scribe-captures");
 
-        // Sort by timestamp, newest first
-        captures.sort((a, b) => b.timestamp - a.timestamp);
-
-        // Update stats
-        statsEl.textContent = `${captures.length} capture${captures.length !== 1 ? 's' : ''}`;
-
-        if (captures.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <h2>No captures yet</h2>
-                    <p>Click anywhere on a page to capture a screenshot</p>
-                </div>
-            `;
-            return;
+        // Add each capture to the ZIP
+        for (let i = 0; i < sessionCaptures.length; i++) {
+            const capture = sessionCaptures[i];
+            const filename = `capture-${String(i + 1).padStart(3, '0')}.png`;
+            folder.file(filename, capture.image);
         }
 
-        container.innerHTML = '';
+        // Add a simple manifest/info file
+        const manifest = {
+            captureDate: new Date().toISOString(),
+            totalCaptures: sessionCaptures.length,
+            captures: sessionCaptures.map((c, i) => ({
+                number: i + 1,
+                timestamp: new Date(c.timestamp).toISOString(),
+                url: c.url
+            }))
+        };
+        folder.file("manifest.json", JSON.stringify(manifest, null, 2));
 
-        for (const capture of captures) {
-            const card = document.createElement('div');
-            card.className = 'capture-card';
-            card.dataset.id = capture.id;
+        // Generate the ZIP file
+        const zipBlob = await zip.generateAsync({
+            type: "blob",
+            compression: "DEFLATE",
+            compressionOptions: { level: 6 }
+        });
 
-            // Convert blob to URL
-            const imageUrl = URL.createObjectURL(capture.image);
-            const filename = `scribe-${new Date(capture.timestamp).toISOString().slice(0, 19).replace(/[T:]/g, '-')}.png`;
+        // Create download link
+        const zipUrl = URL.createObjectURL(zipBlob);
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
+        const filename = `scribe-captures-${timestamp}.zip`;
 
-            card.innerHTML = `
-                <img src="${imageUrl}" alt="Capture from ${capture.url}" title="Click to open full size">
-                <div class="capture-info">
-                    <div class="capture-meta">
-                        <div class="capture-time">${formatDate(capture.timestamp)}</div>
-                        <div class="capture-url" title="${capture.url}">${capture.url}</div>
-                    </div>
-                    <div class="capture-actions">
-                        <button class="btn-icon download" title="Download">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                            </svg>
-                        </button>
-                        <button class="btn-icon delete" title="Delete">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            `;
+        // Trigger download
+        const a = document.createElement('a');
+        a.href = zipUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-            // Open image in new tab on click
-            card.querySelector('img').addEventListener('click', () => {
-                chrome.tabs.create({ url: imageUrl });
-            });
+        // Reset session
+        resetSession();
 
-            // Download button
-            card.querySelector('.download').addEventListener('click', () => {
-                downloadImage(capture.image, filename);
-            });
-
-            // Delete button
-            card.querySelector('.delete').addEventListener('click', async () => {
-                await deleteCapture(capture.id);
-                card.style.transition = 'all 0.3s ease';
-                card.style.opacity = '0';
-                card.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    renderCaptures();
-                }, 300);
-            });
-
-            container.appendChild(card);
-        }
     } catch (error) {
-        console.error('Error loading captures:', error);
-        container.innerHTML = `
-            <div class="empty-state">
-                <h2>Error loading captures</h2>
-                <p>${error.message}</p>
-            </div>
+        console.error('Error creating ZIP:', error);
+        alert('Error creating ZIP file: ' + error.message);
+        completeBtn.disabled = false;
+        completeBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <path d="M7 10l5 5 5-5"/>
+                <path d="M12 15V3"/>
+            </svg>
+            Complete & Download ZIP
         `;
     }
 }
 
-// Clear all button handler
-document.getElementById('clearBtn').addEventListener('click', async () => {
-    if (confirm('Are you sure you want to delete all captures? This cannot be undone.')) {
-        await clearAllCaptures();
-        renderCaptures();
-    }
-});
+// Reset session to initial state
+function resetSession() {
+    isCapturing = false;
+    sessionCaptures = [];
+
+    // Update UI
+    startBtn.classList.remove('hidden');
+    footer.classList.add('hidden');
+    recordingIndicator.classList.add('hidden');
+    statsEl.classList.add('hidden');
+
+    // Reset complete button
+    completeBtn.disabled = false;
+    completeBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <path d="M7 10l5 5 5-5"/>
+            <path d="M12 15V3"/>
+        </svg>
+        Complete & Download ZIP
+    `;
+
+    // Show empty state
+    container.innerHTML = `
+        <div class="empty-state" id="emptyState">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <h2>Ready to Capture</h2>
+            <p>Click "Start Capture Session" to begin recording your screen clicks</p>
+        </div>
+    `;
+
+    // Store session state
+    chrome.storage.local.set({ isCapturing: false });
+
+    // Notify content scripts that session ended
+    chrome.tabs.query({}, (tabs) => {
+        tabs.forEach(tab => {
+            chrome.tabs.sendMessage(tab.id, { action: "session_ended" }).catch(() => { });
+        });
+    });
+}
+
+// Event listeners
+startBtn.addEventListener('click', startSession);
+completeBtn.addEventListener('click', completeSession);
 
 // Listen for new captures from background script
-chrome.runtime.onMessage.addListener((request) => {
-    if (request.action === "capture_saved") {
-        renderCaptures();
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "capture_added" && isCapturing) {
+        // Convert base64 to blob
+        fetch(request.dataUrl)
+            .then(res => res.blob())
+            .then(blob => {
+                addCapture(blob, request.url);
+            });
+    }
+    if (request.action === "get_session_state") {
+        sendResponse({ isCapturing });
     }
 });
 
-// Initial render
-renderCaptures();
+// Check for existing session state on load
+chrome.storage.local.get(['isCapturing'], (result) => {
+    if (result.isCapturing) {
+        // Resume session UI (but captures are lost on sidepanel close)
+        startSession();
+    }
+});
 
-// Refresh captures periodically to update relative times
-setInterval(renderCaptures, 60000);
+// Add CSS for spinner animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+`;
+document.head.appendChild(style);

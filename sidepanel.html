@@ -18,7 +18,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #eee;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
@@ -28,9 +29,15 @@
             top: 0;
             z-index: 100;
             display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .header-top {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
         }
 
         header h1 {
@@ -40,12 +47,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
         .btn {
@@ -67,6 +68,23 @@
             transform: translateY(-1px);
         }
 
+        .btn-start {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
         .btn-danger {
             background: rgba(239, 68, 68, 0.2);
             border-color: rgba(239, 68, 68, 0.5);
@@ -77,10 +95,12 @@
         }
 
         .captures-container {
+            flex: 1;
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            overflow-y: auto;
         }
 
         .capture-card {
@@ -89,6 +109,7 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .capture-card:hover {
@@ -122,19 +143,16 @@
             min-width: 0;
         }
 
-        .capture-time {
+        .capture-number {
             font-size: 12px;
             color: #a78bfa;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 4px;
         }
 
-        .capture-url {
+        .capture-time {
             font-size: 11px;
             color: #888;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .capture-actions {
@@ -168,8 +186,13 @@
 
         .empty-state {
             text-align: center;
-            padding: 80px 30px;
+            padding: 60px 30px;
             color: #666;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .empty-state svg {
@@ -198,6 +221,66 @@
             border-radius: 20px;
         }
 
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #f87171;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .recording-dot {
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        footer {
+            background: linear-gradient(0deg, #1a1a2e 0%, transparent 100%);
+            padding: 20px 24px;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .btn-complete {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-complete:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 10px;
@@ -216,58 +299,77 @@
             background: rgba(99, 102, 241, 0.7);
         }
 
-        /* Loading state */
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 30px;
-            color: #888;
+        /* Session active state */
+        .session-hint {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px dashed rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            color: #10b981;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(99, 102, 241, 0.2);
-            border-top-color: #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
+        .session-hint svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            opacity: 0.7;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .session-hint p {
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>
-            <span>📸</span>
-            <span>Scribe Captures</span>
-        </h1>
-        <div class="header-actions">
-            <span class="stats" id="stats">0 captures</span>
-            <button class="btn btn-danger" id="clearBtn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-                </svg>
-                Clear All
-            </button>
+        <div class="header-top">
+            <h1>
+                <span>📸</span>
+                <span>Scribe</span>
+            </h1>
+            <div class="recording-indicator hidden" id="recordingIndicator">
+                <div class="recording-dot"></div>
+                <span>Recording</span>
+            </div>
+            <span class="stats hidden" id="stats">0 captures</span>
         </div>
+
+        <button class="btn btn-start" id="startBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="4" fill="currentColor" />
+            </svg>
+            Start Capture Session
+        </button>
     </header>
 
     <div class="captures-container" id="capturesContainer">
-        <div class="loading">
-            <div class="spinner"></div>
-            <span>Loading captures...</span>
+        <div class="empty-state" id="emptyState">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <h2>Ready to Capture</h2>
+            <p>Click "Start Capture Session" to begin recording your screen clicks</p>
         </div>
     </div>
 
+    <footer class="hidden" id="footer">
+        <button class="btn btn-complete" id="completeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                <path d="M7 10l5 5 5-5" />
+                <path d="M12 15V3" />
+            </svg>
+            Complete & Download ZIP
+        </button>
+    </footer>
+
+    <script src="jszip.min.js"></script>
     <script src="sidepanel.js"></script>
 </body>
 
