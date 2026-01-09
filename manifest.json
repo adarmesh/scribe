@@ -5,7 +5,8 @@
     "description": "Capture visible tab window on each click and store screenshots locally",
     "permissions": [
         "activeTab",
-        "storage"
+        "storage",
+        "sidePanel"
     ],
     "host_permissions": [
         "<all_urls>"
@@ -24,11 +25,13 @@
         }
     ],
     "action": {
-        "default_popup": "popup.html",
         "default_icon": {
             "128": "icons/icon128.png"
         },
         "default_title": "Scribe - View Captures"
+    },
+    "side_panel": {
+        "default_path": "sidepanel.html"
     },
     "icons": {
         "128": "icons/icon128.png"
