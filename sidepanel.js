@@ -131,8 +131,11 @@ function addCapture(imageBlob, url) {
     container.appendChild(card);
     updateStats();
 
-    // Auto-scroll to bottom
-    container.scrollTop = container.scrollHeight;
+    // Auto-scroll to bottom after image loads (so scrollHeight is accurate)
+    const img = card.querySelector('img');
+    img.onload = () => {
+        container.scrollTop = container.scrollHeight;
+    };
 }
 
 // Update capture numbers after deletion

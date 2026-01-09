@@ -24,6 +24,7 @@ async function handleClick() {
     } catch (error) {
         // Extension was reloaded - clean up orphaned listeners
         if (error.message?.includes('Extension context invalidated')) {
+            console.log('Extension context invalidated, cleaning up listeners');
             cleanup();
         }
     }
