@@ -75,7 +75,7 @@ function addCapture(imageBlob, url) {
         timestamp: Date.now(),
         image: imageBlob,
         url: url,
-        number: sessionCaptures.length + 1
+        caption: 'Click'
     };
 
     sessionCaptures.push(capture);
@@ -94,10 +94,12 @@ function addCapture(imageBlob, url) {
     const imageUrl = URL.createObjectURL(imageBlob);
 
     card.innerHTML = `
-        <img src="${imageUrl}" alt="Capture #${capture.number}" title="Click to open full size">
+        <div class="capture-caption-container">
+            <input type="text" class="capture-caption" value="${capture.caption}" placeholder="Enter caption...">
+        </div>
+        <img src="${imageUrl}" alt="${capture.caption}" title="Click to open full size">
         <div class="capture-info">
             <div class="capture-meta">
-                <div class="capture-number">Capture #${capture.number}</div>
                 <div class="capture-time">${formatTime(capture.timestamp)}</div>
             </div>
             <div class="capture-actions">
@@ -109,6 +111,11 @@ function addCapture(imageBlob, url) {
             </div>
         </div>
     `;
+
+    // Update caption on input change
+    card.querySelector('.capture-caption').addEventListener('input', (e) => {
+        capture.caption = e.target.value;
+    });
 
     // Open image in new tab on click
     card.querySelector('img').addEventListener('click', () => {
@@ -141,19 +148,9 @@ function addCapture(imageBlob, url) {
     };
 }
 
-// Update capture numbers after deletion
+// Renumber captures after deletion (legacy, no longer updates display)
 function renumberCaptures() {
-    sessionCaptures.forEach((capture, index) => {
-        capture.number = index + 1;
-    });
-
-    const cards = container.querySelectorAll('.capture-card');
-    cards.forEach((card, index) => {
-        const numberEl = card.querySelector('.capture-number');
-        if (numberEl) {
-            numberEl.textContent = `Capture #${index + 1}`;
-        }
-    });
+    // Captions are now independent, no renumbering needed
 }
 
 // Update stats display

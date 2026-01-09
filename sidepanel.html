@@ -143,11 +143,32 @@
             min-width: 0;
         }
 
-        .capture-number {
-            font-size: 12px;
-            color: #a78bfa;
-            font-weight: 600;
-            margin-bottom: 4px;
+        .capture-caption-container {
+            padding: 10px 14px;
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .capture-caption {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .capture-caption:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .capture-caption::placeholder {
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .capture-time {
