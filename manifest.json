@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Stepify - SOPs, Guides, and Documentation",
     "version": "1.0.0",
-    "description": "Capture visible tab window on each click and store screenshots locally. Add captions to screenshots and create SOPs, Guides, and Documentation",
+    "description": "Capture screenshots on each click, add captions, and create SOPs, Guides, and Documentation with ease",
     "permissions": [
         "activeTab",
         "storage",
