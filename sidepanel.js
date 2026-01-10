@@ -261,9 +261,173 @@ async function downloadZip() {
     }
 }
 
-// Download as PDF (placeholder - needs implementation)
+// Helper: Convert blob to base64 data URL
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+// Download as PDF
 async function downloadPdf() {
-    alert('PDF export coming soon!');
+    downloadPdfBtn.disabled = true;
+    downloadPdfBtn.textContent = 'Saving...';
+
+    try {
+        const { jsPDF } = window.jspdf;
+
+        // Landscape A4: 297mm x 210mm
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const pageWidth = 297;
+        const pageHeight = 210;
+        const margin = 15;
+        const contentWidth = pageWidth - (margin * 2);
+
+        // === COVER PAGE ===
+        pdf.setFillColor(26, 26, 46); // Dark background
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+        // Title
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(36);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Scribe Captures', pageWidth / 2, 70, { align: 'center' });
+
+        // Capture date
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(150, 150, 150);
+        const captureDate = new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        pdf.text(captureDate, pageWidth / 2, 85, { align: 'center' });
+
+        // Stats
+        pdf.setFontSize(18);
+        pdf.setTextColor(99, 102, 241); // Indigo accent
+        pdf.text(`${sessionCaptures.length} Capture${sessionCaptures.length !== 1 ? 's' : ''}`, pageWidth / 2, 105, { align: 'center' });
+
+        // Table of Contents header
+        pdf.setFontSize(14);
+        pdf.setTextColor(200, 200, 200);
+        pdf.text('Table of Contents', margin, 130);
+
+        // TOC items
+        pdf.setFontSize(11);
+        pdf.setTextColor(150, 150, 150);
+        let tocY = 140;
+        for (let i = 0; i < Math.min(sessionCaptures.length, 10); i++) {
+            const capture = sessionCaptures[i];
+            const tocText = `${i + 1}. ${capture.caption || 'Untitled'}`;
+            pdf.text(tocText, margin + 5, tocY);
+            tocY += 6;
+        }
+        if (sessionCaptures.length > 10) {
+            pdf.text(`... and ${sessionCaptures.length - 10} more`, margin + 5, tocY);
+        }
+
+        // === CAPTURE PAGES ===
+        for (let i = 0; i < sessionCaptures.length; i++) {
+            pdf.addPage();
+
+            const capture = sessionCaptures[i];
+            const pageNum = i + 2; // Cover is page 1
+
+            // White background for content pages
+            pdf.setFillColor(255, 255, 255);
+            pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+            // Caption as title (left-aligned)
+            pdf.setTextColor(30, 30, 30);
+            pdf.setFontSize(18);
+            pdf.setFont('helvetica', 'bold');
+            const caption = capture.caption || 'Untitled';
+            pdf.text(caption, margin, margin + 8);
+
+            // Timestamp below caption
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(120, 120, 120);
+            const timestamp = new Date(capture.timestamp).toLocaleString('en-US', {
+                dateStyle: 'medium',
+                timeStyle: 'medium'
+            });
+            pdf.text(timestamp, margin, margin + 15);
+
+            // Convert image blob to base64
+            const imgData = await blobToBase64(capture.image);
+
+            // Calculate image dimensions to fit page width
+            const img = new Image();
+            await new Promise((resolve) => {
+                img.onload = resolve;
+                img.src = imgData;
+            });
+
+            const imgAspect = img.width / img.height;
+            let imgWidth = contentWidth;
+            let imgHeight = imgWidth / imgAspect;
+
+            // Available height for image (accounting for title, footer)
+            const titleAreaHeight = 25;
+            const footerAreaHeight = 15;
+            const availableHeight = pageHeight - margin - titleAreaHeight - margin - footerAreaHeight;
+
+            // If image is too tall, scale by height instead
+            if (imgHeight > availableHeight) {
+                imgHeight = availableHeight;
+                imgWidth = imgHeight * imgAspect;
+            }
+
+            // Center image horizontally
+            const imgX = (pageWidth - imgWidth) / 2;
+            const imgY = margin + titleAreaHeight;
+
+            // Add image with border
+            pdf.setDrawColor(200, 200, 200);
+            pdf.setLineWidth(0.5);
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth, imgHeight);
+            pdf.rect(imgX, imgY, imgWidth, imgHeight, 'S');
+
+            // Footer: URL and page number
+            pdf.setFontSize(8);
+            pdf.setTextColor(150, 150, 150);
+
+            // URL (truncated if too long)
+            const url = capture.url || '';
+            const maxUrlLength = 80;
+            const displayUrl = url.length > maxUrlLength ? url.substring(0, maxUrlLength) + '...' : url;
+            pdf.text(displayUrl, margin, pageHeight - margin);
+
+            // Page number (right-aligned)
+            pdf.text(`Page ${pageNum} of ${sessionCaptures.length + 1}`, pageWidth - margin, pageHeight - margin, { align: 'right' });
+        }
+
+        // Save the PDF
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
+        const filename = `scribe-captures-${timestamp}.pdf`;
+        pdf.save(filename);
+
+        // Reset session after successful download
+        resetSession();
+
+    } catch (error) {
+        console.error('Error creating PDF:', error);
+        alert('Error creating PDF file: ' + error.message);
+        downloadPdfBtn.disabled = false;
+        downloadPdfBtn.textContent = 'PDF';
+    }
 }
 
 // Download as PPTX (placeholder - needs implementation)
