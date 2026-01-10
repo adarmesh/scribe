@@ -20,7 +20,7 @@ const completeBtn = document.getElementById('completeBtn');
 const downloadButtons = document.getElementById('downloadButtons');
 const downloadZipBtn = document.getElementById('downloadZipBtn');
 const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-const downloadPptxBtn = document.getElementById('downloadPptxBtn');
+
 const clearAllBtn = document.getElementById('clearAllBtn');
 const footerButtons = document.getElementById('footerButtons');
 const footer = document.getElementById('footer');
@@ -430,10 +430,7 @@ async function downloadPdf() {
     }
 }
 
-// Download as PPTX (placeholder - needs implementation)
-async function downloadPptx() {
-    alert('PPTX export coming soon!');
-}
+
 
 // Reset session to initial state
 function resetSession() {
@@ -481,7 +478,7 @@ completeBtn.addEventListener('click', completeSession);
 clearAllBtn.addEventListener('click', clearAllCaptures);
 downloadZipBtn.addEventListener('click', downloadZip);
 downloadPdfBtn.addEventListener('click', downloadPdf);
-downloadPptxBtn.addEventListener('click', downloadPptx);
+
 
 // Listen for new captures from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
