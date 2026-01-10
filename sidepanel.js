@@ -448,6 +448,8 @@ function resetSession() {
     downloadButtons.classList.add('hidden');
     downloadZipBtn.disabled = false;
     downloadZipBtn.textContent = 'ZIP';
+    downloadPdfBtn.disabled = false;
+    downloadPdfBtn.textContent = 'PDF';
 
     // Show empty state
     container.innerHTML = `
