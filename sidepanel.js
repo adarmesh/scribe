@@ -299,7 +299,7 @@ async function downloadPdf() {
         pdf.setTextColor(255, 255, 255);
         pdf.setFontSize(36);
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Scribe Captures', pageWidth / 2, 70, { align: 'center' });
+        pdf.text('Stepify Captures', pageWidth / 2, 70, { align: 'center' });
 
         // Capture date
         pdf.setFontSize(14);
