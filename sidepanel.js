@@ -303,12 +303,36 @@ async function downloadPdf() {
         pdf.setFillColor(26, 26, 46); // Dark background
         pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-        // Title
+        // Title - dynamically adjust font size based on length
         pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(36);
         pdf.setFont('helvetica', 'bold');
         const pdfTitle = sessionTitle || 'Stepify';
-        pdf.text(pdfTitle, pageWidth / 2, 70, { align: 'center' });
+
+        // Calculate appropriate font size based on title length
+        let titleFontSize = 36;
+        if (pdfTitle.length > 50) {
+            titleFontSize = 20;
+        } else if (pdfTitle.length > 30) {
+            titleFontSize = 28;
+        } else if (pdfTitle.length > 20) {
+            titleFontSize = 32;
+        }
+
+        pdf.setFontSize(titleFontSize);
+
+        // Split title into multiple lines if necessary
+        const maxWidth = pageWidth - (margin * 4); // Leave extra margin for title
+        const titleLines = pdf.splitTextToSize(pdfTitle, maxWidth);
+
+        // Calculate starting Y position to center the title block
+        const lineHeight = titleFontSize * 0.35; // Approximate line height in mm
+        const totalTitleHeight = titleLines.length * lineHeight;
+        let titleY = 70 - (totalTitleHeight / 2) + lineHeight;
+
+        // Draw each line of the title
+        titleLines.forEach((line, index) => {
+            pdf.text(line, pageWidth / 2, titleY + (index * lineHeight), { align: 'center' });
+        });
 
         // Capture date
         pdf.setFontSize(14);
