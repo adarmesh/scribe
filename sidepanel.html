@@ -47,6 +47,35 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex: 1;
+        }
+
+        .session-title-input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            outline: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-width: 120px;
+            max-width: 250px;
+        }
+
+        .session-title-input:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .session-title-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .session-title-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .btn {
@@ -421,7 +450,8 @@
         <div class="header-top">
             <h1>
                 <span>📸</span>
-                <span>Stepify</span>
+                <input type="text" id="sessionTitle" class="session-title-input" placeholder="Edit title here..."
+                    value="Stepify">
             </h1>
             <div class="recording-indicator hidden" id="recordingIndicator">
                 <div class="recording-dot"></div>

@@ -1,6 +1,7 @@
 // Session state
 let isCapturing = false;
 let sessionCaptures = [];
+let sessionTitle = 'Stepify';
 
 // Sync isCapturing with storage changes
 chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -28,6 +29,7 @@ const container = document.getElementById('capturesContainer');
 const statsEl = document.getElementById('stats');
 const recordingIndicator = document.getElementById('recordingIndicator');
 const emptyState = document.getElementById('emptyState');
+const sessionTitleInput = document.getElementById('sessionTitle');
 
 // Format timestamp to readable time
 function formatTime(timestamp) {
@@ -209,7 +211,8 @@ async function downloadZip() {
 
     try {
         const zip = new JSZip();
-        const folder = zip.folder("scribe-captures");
+        const folderName = sessionTitle || 'Stepify';
+        const folder = zip.folder(folderName);
 
         // Add each capture to the ZIP
         for (let i = 0; i < sessionCaptures.length; i++) {
@@ -240,7 +243,8 @@ async function downloadZip() {
         // Create download link
         const zipUrl = URL.createObjectURL(zipBlob);
         const timestamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
-        const filename = `scribe-captures-${timestamp}.zip`;
+        const sanitizedTitle = (sessionTitle || 'Stepify').replace(/[^a-z0-9_-]/gi, '_');
+        const filename = `${sanitizedTitle}-${timestamp}.zip`;
 
         // Trigger download
         const a = document.createElement('a');
@@ -299,7 +303,8 @@ async function downloadPdf() {
         pdf.setTextColor(255, 255, 255);
         pdf.setFontSize(36);
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Stepify Captures', pageWidth / 2, 70, { align: 'center' });
+        const pdfTitle = (sessionTitle || 'Stepify') + ' Captures';
+        pdf.text(pdfTitle, pageWidth / 2, 70, { align: 'center' });
 
         // Capture date
         pdf.setFontSize(14);
@@ -416,7 +421,8 @@ async function downloadPdf() {
 
         // Save the PDF
         const timestamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
-        const filename = `scribe-captures-${timestamp}.pdf`;
+        const sanitizedTitle = (sessionTitle || 'Stepify').replace(/[^a-z0-9_-]/gi, '_');
+        const filename = `${sanitizedTitle}-${timestamp}.pdf`;
         pdf.save(filename);
 
         // Reset session after successful download
@@ -481,6 +487,12 @@ clearAllBtn.addEventListener('click', clearAllCaptures);
 downloadZipBtn.addEventListener('click', downloadZip);
 downloadPdfBtn.addEventListener('click', downloadPdf);
 
+// Session title event listener
+sessionTitleInput.addEventListener('input', (e) => {
+    sessionTitle = e.target.value || 'Stepify';
+    chrome.storage.local.set({ sessionTitle });
+});
+
 
 // Listen for new captures from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -498,10 +510,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // Check for existing session state on load
-chrome.storage.local.get(['isCapturing'], (result) => {
+chrome.storage.local.get(['isCapturing', 'sessionTitle'], (result) => {
     if (result.isCapturing) {
         // Resume session UI (but captures are lost on sidepanel close)
         startSession();
+    }
+    if (result.sessionTitle) {
+        sessionTitle = result.sessionTitle;
+        sessionTitleInput.value = sessionTitle;
     }
 });
 
