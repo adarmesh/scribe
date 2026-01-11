@@ -27,9 +27,9 @@ const footerButtons = document.getElementById('footerButtons');
 const footer = document.getElementById('footer');
 const container = document.getElementById('capturesContainer');
 const statsEl = document.getElementById('stats');
-const recordingIndicator = document.getElementById('recordingIndicator');
 const emptyState = document.getElementById('emptyState');
 const sessionTitleInput = document.getElementById('sessionTitle');
+const sessionIcon = document.getElementById('sessionIcon');
 
 // Format timestamp to readable time
 function formatTime(timestamp) {
@@ -49,8 +49,10 @@ function startSession() {
     // Update UI
     startBtn.classList.add('hidden');
     footer.classList.remove('hidden');
-    recordingIndicator.classList.remove('hidden');
     statsEl.classList.add('hidden');
+
+    // Swap camera icon with recording dot
+    sessionIcon.innerHTML = '<div class="recording-dot"></div>';
 
     // Clear container and show hint
     container.innerHTML = `
@@ -194,7 +196,9 @@ function completeSession() {
     // Update UI - hide footer buttons, show download buttons
     footerButtons.classList.add('hidden');
     downloadButtons.classList.remove('hidden');
-    recordingIndicator.classList.add('hidden');
+
+    // Swap recording dot back to camera icon
+    sessionIcon.innerHTML = '📸';
 
     // Notify content scripts that session ended
     chrome.tabs.query({}, (tabs) => {
@@ -303,7 +307,7 @@ async function downloadPdf() {
         pdf.setTextColor(255, 255, 255);
         pdf.setFontSize(36);
         pdf.setFont('helvetica', 'bold');
-        const pdfTitle = (sessionTitle || 'Stepify') + ' Captures';
+        const pdfTitle = sessionTitle || 'Stepify';
         pdf.text(pdfTitle, pageWidth / 2, 70, { align: 'center' });
 
         // Capture date
@@ -446,8 +450,10 @@ function resetSession() {
     // Update UI
     startBtn.classList.remove('hidden');
     footer.classList.add('hidden');
-    recordingIndicator.classList.add('hidden');
     statsEl.classList.add('hidden');
+
+    // Swap recording dot back to camera icon
+    sessionIcon.innerHTML = '📸';
 
     // Reset buttons visibility
     footerButtons.classList.remove('hidden');

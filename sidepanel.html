@@ -50,6 +50,12 @@
             flex: 1;
         }
 
+        #sessionIcon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .session-title-input {
             background: transparent;
             border: none;
@@ -63,6 +69,9 @@
             transition: all 0.2s ease;
             min-width: 120px;
             max-width: 250px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         .session-title-input:hover {
@@ -263,6 +272,12 @@
             color: #666;
         }
 
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
         .stats {
             font-size: 13px;
             color: rgba(255, 255, 255, 0.7);
@@ -271,21 +286,17 @@
             border-radius: 20px;
         }
 
-        .recording-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #f87171;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
         .recording-dot {
             width: 10px;
             height: 10px;
             background: #ef4444;
             border-radius: 50%;
             animation: pulse-dot 1.5s infinite;
+        }
+
+        #sessionIcon .recording-dot {
+            width: 12px;
+            height: 12px;
         }
 
         @keyframes pulse-dot {
@@ -449,14 +460,10 @@
     <header>
         <div class="header-top">
             <h1>
-                <span>📸</span>
+                <span id="sessionIcon">📸</span>
                 <input type="text" id="sessionTitle" class="session-title-input" placeholder="Edit title here..."
                     value="Stepify">
             </h1>
-            <div class="recording-indicator hidden" id="recordingIndicator">
-                <div class="recording-dot"></div>
-                <span>Recording</span>
-            </div>
             <span class="stats hidden" id="stats">0 captures</span>
         </div>
 
