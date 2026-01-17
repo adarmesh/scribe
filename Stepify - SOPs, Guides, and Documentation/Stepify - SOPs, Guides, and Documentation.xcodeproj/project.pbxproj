@@ -1,0 +1,637 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D53189D22F1C06B9005BEF9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53189D12F1C06B9005BEF9F /* AppDelegate.swift */; };
+		D53189D62F1C06B9005BEF9F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = D53189D42F1C06B9005BEF9F /* Main.html */; };
+		D53189D82F1C06B9005BEF9F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D53189D72F1C06B9005BEF9F /* Icon.png */; };
+		D53189DA2F1C06B9005BEF9F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = D53189D92F1C06B9005BEF9F /* Style.css */; };
+		D53189DC2F1C06B9005BEF9F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = D53189DB2F1C06B9005BEF9F /* Script.js */; };
+		D53189DE2F1C06B9005BEF9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53189DD2F1C06B9005BEF9F /* ViewController.swift */; };
+		D53189E12F1C06B9005BEF9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D53189DF2F1C06B9005BEF9F /* Main.storyboard */; };
+		D53189E32F1C06BA005BEF9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D53189E22F1C06BA005BEF9F /* Assets.xcassets */; };
+		D53189EA2F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D53189E92F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D53189EF2F1C06BA005BEF9F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53189EE2F1C06BA005BEF9F /* SafariWebExtensionHandler.swift */; };
+		D5318A062F1C06BB005BEF9F /* pdfobject.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D53189FB2F1C06BB005BEF9F /* pdfobject.min.js */; };
+		D5318A072F1C06BB005BEF9F /* stepify.zip in Resources */ = {isa = PBXBuildFile; fileRef = D53189FC2F1C06BB005BEF9F /* stepify.zip */; };
+		D5318A082F1C06BB005BEF9F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D53189FD2F1C06BB005BEF9F /* icon.png */; };
+		D5318A092F1C06BB005BEF9F /* Stepify - SOPs, Guides, and Documentation in Resources */ = {isa = PBXBuildFile; fileRef = D53189FE2F1C06BB005BEF9F /* Stepify - SOPs, Guides, and Documentation */; };
+		D5318A0A2F1C06BB005BEF9F /* sidepanel.js in Resources */ = {isa = PBXBuildFile; fileRef = D53189FF2F1C06BB005BEF9F /* sidepanel.js */; };
+		D5318A0B2F1C06BB005BEF9F /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = D5318A002F1C06BB005BEF9F /* background.js */; };
+		D5318A0C2F1C06BB005BEF9F /* jszip.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D5318A012F1C06BB005BEF9F /* jszip.min.js */; };
+		D5318A0D2F1C06BB005BEF9F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = D5318A022F1C06BB005BEF9F /* manifest.json */; };
+		D5318A0E2F1C06BB005BEF9F /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = D5318A032F1C06BB005BEF9F /* content.js */; };
+		D5318A0F2F1C06BB005BEF9F /* sidepanel.html in Resources */ = {isa = PBXBuildFile; fileRef = D5318A042F1C06BB005BEF9F /* sidepanel.html */; };
+		D5318A102F1C06BB005BEF9F /* jspdf.umd.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D5318A052F1C06BB005BEF9F /* jspdf.umd.min.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D53189EB2F1C06BA005BEF9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D53189C62F1C06B9005BEF9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D53189E82F1C06BA005BEF9F;
+			remoteInfo = "Stepify - SOPs, Guides, and Documentation Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D53189F62F1C06BA005BEF9F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D53189EA2F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D53189CE2F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stepify - SOPs, Guides, and Documentation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53189D12F1C06B9005BEF9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D53189D52F1C06B9005BEF9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		D53189D72F1C06B9005BEF9F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		D53189D92F1C06B9005BEF9F /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		D53189DB2F1C06B9005BEF9F /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		D53189DD2F1C06B9005BEF9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D53189E02F1C06B9005BEF9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D53189E22F1C06BA005BEF9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D53189E42F1C06BA005BEF9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D53189E92F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stepify - SOPs, Guides, and Documentation Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53189EE2F1C06BA005BEF9F /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		D53189F02F1C06BA005BEF9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D53189FB2F1C06BB005BEF9F /* pdfobject.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = pdfobject.min.js; path = ../../pdfobject.min.js; sourceTree = "<group>"; };
+		D53189FC2F1C06BB005BEF9F /* stepify.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = stepify.zip; path = ../../stepify.zip; sourceTree = "<group>"; };
+		D53189FD2F1C06BB005BEF9F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../icon.png; sourceTree = "<group>"; };
+		D53189FE2F1C06BB005BEF9F /* Stepify - SOPs, Guides, and Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Stepify - SOPs, Guides, and Documentation"; sourceTree = SOURCE_ROOT; };
+		D53189FF2F1C06BB005BEF9F /* sidepanel.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = sidepanel.js; path = ../../sidepanel.js; sourceTree = "<group>"; };
+		D5318A002F1C06BB005BEF9F /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../background.js; sourceTree = "<group>"; };
+		D5318A012F1C06BB005BEF9F /* jszip.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = jszip.min.js; path = ../../jszip.min.js; sourceTree = "<group>"; };
+		D5318A022F1C06BB005BEF9F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../manifest.json; sourceTree = "<group>"; };
+		D5318A032F1C06BB005BEF9F /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../content.js; sourceTree = "<group>"; };
+		D5318A042F1C06BB005BEF9F /* sidepanel.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = sidepanel.html; path = ../../sidepanel.html; sourceTree = "<group>"; };
+		D5318A052F1C06BB005BEF9F /* jspdf.umd.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = jspdf.umd.min.js; path = ../../jspdf.umd.min.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D53189CB2F1C06B9005BEF9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53189E62F1C06BA005BEF9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D53189C52F1C06B9005BEF9F = {
+			isa = PBXGroup;
+			children = (
+				D53189D02F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation */,
+				D53189ED2F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension */,
+				D53189CF2F1C06B9005BEF9F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D53189CF2F1C06B9005BEF9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D53189CE2F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation.app */,
+				D53189E92F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D53189D02F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				D53189D12F1C06B9005BEF9F /* AppDelegate.swift */,
+				D53189DD2F1C06B9005BEF9F /* ViewController.swift */,
+				D53189DF2F1C06B9005BEF9F /* Main.storyboard */,
+				D53189E22F1C06BA005BEF9F /* Assets.xcassets */,
+				D53189E42F1C06BA005BEF9F /* Info.plist */,
+				D53189D32F1C06B9005BEF9F /* Resources */,
+			);
+			path = "Stepify - SOPs, Guides, and Documentation";
+			sourceTree = "<group>";
+		};
+		D53189D32F1C06B9005BEF9F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D53189D42F1C06B9005BEF9F /* Main.html */,
+				D53189D72F1C06B9005BEF9F /* Icon.png */,
+				D53189D92F1C06B9005BEF9F /* Style.css */,
+				D53189DB2F1C06B9005BEF9F /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D53189ED2F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D53189FA2F1C06BB005BEF9F /* Resources */,
+				D53189EE2F1C06BA005BEF9F /* SafariWebExtensionHandler.swift */,
+				D53189F02F1C06BA005BEF9F /* Info.plist */,
+			);
+			path = "Stepify - SOPs, Guides, and Documentation Extension";
+			sourceTree = "<group>";
+		};
+		D53189FA2F1C06BB005BEF9F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D53189FB2F1C06BB005BEF9F /* pdfobject.min.js */,
+				D53189FC2F1C06BB005BEF9F /* stepify.zip */,
+				D53189FD2F1C06BB005BEF9F /* icon.png */,
+				D53189FE2F1C06BB005BEF9F /* Stepify - SOPs, Guides, and Documentation */,
+				D53189FF2F1C06BB005BEF9F /* sidepanel.js */,
+				D5318A002F1C06BB005BEF9F /* background.js */,
+				D5318A012F1C06BB005BEF9F /* jszip.min.js */,
+				D5318A022F1C06BB005BEF9F /* manifest.json */,
+				D5318A032F1C06BB005BEF9F /* content.js */,
+				D5318A042F1C06BB005BEF9F /* sidepanel.html */,
+				D5318A052F1C06BB005BEF9F /* jspdf.umd.min.js */,
+			);
+			name = Resources;
+			path = "Stepify - SOPs, Guides, and Documentation Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D53189CD2F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D53189F72F1C06BA005BEF9F /* Build configuration list for PBXNativeTarget "Stepify - SOPs, Guides, and Documentation" */;
+			buildPhases = (
+				D53189CA2F1C06B9005BEF9F /* Sources */,
+				D53189CB2F1C06B9005BEF9F /* Frameworks */,
+				D53189CC2F1C06B9005BEF9F /* Resources */,
+				D53189F62F1C06BA005BEF9F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D53189EC2F1C06BA005BEF9F /* PBXTargetDependency */,
+			);
+			name = "Stepify - SOPs, Guides, and Documentation";
+			packageProductDependencies = (
+			);
+			productName = "Stepify - SOPs, Guides, and Documentation";
+			productReference = D53189CE2F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D53189E82F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D53189F32F1C06BA005BEF9F /* Build configuration list for PBXNativeTarget "Stepify - SOPs, Guides, and Documentation Extension" */;
+			buildPhases = (
+				D53189E52F1C06BA005BEF9F /* Sources */,
+				D53189E62F1C06BA005BEF9F /* Frameworks */,
+				D53189E72F1C06BA005BEF9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Stepify - SOPs, Guides, and Documentation Extension";
+			packageProductDependencies = (
+			);
+			productName = "Stepify - SOPs, Guides, and Documentation Extension";
+			productReference = D53189E92F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D53189C62F1C06B9005BEF9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					D53189CD2F1C06B9005BEF9F = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					D53189E82F1C06BA005BEF9F = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+				};
+			};
+			buildConfigurationList = D53189C92F1C06B9005BEF9F /* Build configuration list for PBXProject "Stepify - SOPs, Guides, and Documentation" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D53189C52F1C06B9005BEF9F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D53189CF2F1C06B9005BEF9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D53189CD2F1C06B9005BEF9F /* Stepify - SOPs, Guides, and Documentation */,
+				D53189E82F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D53189CC2F1C06B9005BEF9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53189D82F1C06B9005BEF9F /* Icon.png in Resources */,
+				D53189E12F1C06B9005BEF9F /* Main.storyboard in Resources */,
+				D53189DC2F1C06B9005BEF9F /* Script.js in Resources */,
+				D53189D62F1C06B9005BEF9F /* Main.html in Resources */,
+				D53189E32F1C06BA005BEF9F /* Assets.xcassets in Resources */,
+				D53189DA2F1C06B9005BEF9F /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53189E72F1C06BA005BEF9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5318A102F1C06BB005BEF9F /* jspdf.umd.min.js in Resources */,
+				D5318A072F1C06BB005BEF9F /* stepify.zip in Resources */,
+				D5318A092F1C06BB005BEF9F /* Stepify - SOPs, Guides, and Documentation in Resources */,
+				D5318A062F1C06BB005BEF9F /* pdfobject.min.js in Resources */,
+				D5318A0A2F1C06BB005BEF9F /* sidepanel.js in Resources */,
+				D5318A0D2F1C06BB005BEF9F /* manifest.json in Resources */,
+				D5318A0B2F1C06BB005BEF9F /* background.js in Resources */,
+				D5318A0E2F1C06BB005BEF9F /* content.js in Resources */,
+				D5318A082F1C06BB005BEF9F /* icon.png in Resources */,
+				D5318A0F2F1C06BB005BEF9F /* sidepanel.html in Resources */,
+				D5318A0C2F1C06BB005BEF9F /* jszip.min.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D53189CA2F1C06B9005BEF9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53189DE2F1C06B9005BEF9F /* ViewController.swift in Sources */,
+				D53189D22F1C06B9005BEF9F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53189E52F1C06BA005BEF9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53189EF2F1C06BA005BEF9F /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D53189EC2F1C06BA005BEF9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D53189E82F1C06BA005BEF9F /* Stepify - SOPs, Guides, and Documentation Extension */;
+			targetProxy = D53189EB2F1C06BA005BEF9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D53189D42F1C06B9005BEF9F /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D53189D52F1C06B9005BEF9F /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		D53189DF2F1C06B9005BEF9F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D53189E02F1C06B9005BEF9F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D53189F12F1C06BA005BEF9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D53189F22F1C06BA005BEF9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		D53189F42F1C06BA005BEF9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stepify - SOPs, Guides, and Documentation Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stepify - SOPs, Guides, and Documentation Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Stepify---SOPs--Guides--and-Documentation.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D53189F52F1C06BA005BEF9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stepify - SOPs, Guides, and Documentation Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stepify - SOPs, Guides, and Documentation Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Stepify---SOPs--Guides--and-Documentation.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D53189F82F1C06BA005BEF9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stepify - SOPs, Guides, and Documentation/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stepify - SOPs, Guides, and Documentation";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Stepify---SOPs--Guides--and-Documentation";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D53189F92F1C06BA005BEF9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stepify - SOPs, Guides, and Documentation/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stepify - SOPs, Guides, and Documentation";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Stepify---SOPs--Guides--and-Documentation";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D53189C92F1C06B9005BEF9F /* Build configuration list for PBXProject "Stepify - SOPs, Guides, and Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53189F12F1C06BA005BEF9F /* Debug */,
+				D53189F22F1C06BA005BEF9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D53189F32F1C06BA005BEF9F /* Build configuration list for PBXNativeTarget "Stepify - SOPs, Guides, and Documentation Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53189F42F1C06BA005BEF9F /* Debug */,
+				D53189F52F1C06BA005BEF9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D53189F72F1C06BA005BEF9F /* Build configuration list for PBXNativeTarget "Stepify - SOPs, Guides, and Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53189F82F1C06BA005BEF9F /* Debug */,
+				D53189F92F1C06BA005BEF9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D53189C62F1C06B9005BEF9F /* Project object */;
+}
